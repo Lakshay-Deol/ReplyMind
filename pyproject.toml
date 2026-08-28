@@ -1,0 +1,32 @@
+[project]
+name = "replymind"
+version = "1.0.0"
+description = "Persistent AI community manager for creators, built on the Minds Builder API."
+requires-python = ">=3.10"
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+exclude = [".venv", "venv", "runtime", "minds-service", "docs"]
+
+[tool.ruff.lint]
+# Pinned explicitly. With no config, CI installed whatever ruff was latest and
+# the default rule set shifted underneath the build.
+select = [
+    "E4", "E7", "E9",  # pycodestyle: imports, statements, syntax
+    "F",               # pyflakes
+    "I",               # import sorting
+    "B",               # bugbear
+    "PIE",             # misc lints
+]
+ignore = [
+    "B008",  # FastAPI's Depends()/Form() in defaults is the documented idiom
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B011"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+filterwarnings = ["ignore::DeprecationWarning"]

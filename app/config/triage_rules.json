@@ -1,0 +1,81 @@
+{
+  "spam_threshold": 0.65,
+  "min_text_len": 3,
+  "hard_block_regex": [
+    "(https?:\\/\\/\\S+|www\\.\\S+)",
+    "\\b(hxxp|h\\s*t\\s*t\\s*p)\\b",
+    "\\b(t\\.me|telegram|whatsapp|snapchat|kik)\\b",
+    "\\b(dm\\s*me|message\\s*me|text\\s*me)\\b",
+    "\\b(contact\\s*me|reach\\s*me)\\b",
+    "\\b(bit\\.ly|tinyurl\\.com|rb\\.gy)\\b"
+  ],
+  "pii_regex": [
+    "\\b[\\w\\.-]+@[\\w\\.-]+\\.\\w+\\b",
+    "\\b(\\+?\\d[\\d\\s\\-\\(\\)]{7,}\\d)\\b"
+  ],
+  "spam_phrases": [
+    "earn money",
+    "investment",
+    "crypto",
+    "forex",
+    "signal",
+    "guaranteed profit",
+    "double your",
+    "giveaway",
+    "click my",
+    "check my channel",
+    "sub4sub",
+    "subscribe",
+    "promo"
+  ],
+  "relevance_question_words": [
+    "how",
+    "what",
+    "why",
+    "when",
+    "where",
+    "can",
+    "could",
+    "should",
+    "is",
+    "are",
+    "do",
+    "does"
+  ],
+  "complaint_words": [
+    "not working",
+    "doesn't work",
+    "does not work",
+    "doesnt work",
+    "out of sync",
+    "issue",
+    "problem",
+    "error",
+    "broken",
+    "404",
+    "help",
+    "scam",
+    "fake",
+    "worst"
+  ],
+  "praise_words": [
+    "love",
+    "amazing",
+    "helpful",
+    "great",
+    "awesome",
+    "thank you",
+    "thanks"
+  ],
+  "ignore_exact": [
+    "first",
+    "nice",
+    "wow",
+    "cool",
+    "great",
+    "awesome",
+    "\ud83d\udd25",
+    "\ud83d\udc4f",
+    "\ud83d\udc4d"
+  ]
+}

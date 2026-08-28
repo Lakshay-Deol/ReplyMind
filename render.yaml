@@ -1,0 +1,55 @@
+# ReplyMind on Render.
+#
+# The console is the only service a demo link needs: demo mode runs the whole
+# pipeline on seeded comments, primes itself on boot, and cannot publish to
+# anyone's channel.
+#
+# The Minds integration service is commented out on purpose -- read the note
+# under it before enabling, because a public instance spends real cognition.
+
+services:
+  - type: web
+    name: replymind
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m uvicorn app.review.webapp:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: REPLYMIND_MODE
+        value: demo
+      - key: RUNTIME_DIR
+        value: /tmp/replymind
+      - key: PYTHON_VERSION
+        value: "3.11"
+      # Optional: shown on the Ask ReplyMind page so judges know where to see
+      # the live Mind, since the hosted demo runs without it.
+      # - key: REPLYMIND_DEMO_VIDEO_URL
+      #   value: https://youtu.be/YOUR_VIDEO
+      # OPENAI_API_KEY is optional: without it, drafting falls back to
+      # deterministic templates and the rest of the product is unaffected.
+
+  # ------------------------------------------------------------------------
+  # Minds integration service.
+  #
+  # Enable ONLY if you want judges to be able to ask the Mind live, and only
+  # with cognition credit to spare: every question spends real balance, and a
+  # public URL means every visitor spends yours.
+  #
+  # If you enable it:
+  #   1. set MINDS_BUILDER_API_KEY and MINDS_MIND_ID in the dashboard
+  #   2. generate one shared secret and set MINDS_SERVICE_TOKEN on BOTH services
+  #      -- without it, anyone who finds the URL can drain your balance
+  #   3. set MINDS_SERVICE_URL on `replymind` to this service's hostname
+  # ------------------------------------------------------------------------
+  # - type: web
+  #   name: replymind-minds
+  #   runtime: node
+  #   plan: free
+  #   rootDir: minds-service
+  #   buildCommand: npm ci && npm run build
+  #   startCommand: npm run serve
+  #   healthCheckPath: /health
+  #   envVars:
+  #     - key: NODE_VERSION
+  #       value: "22"

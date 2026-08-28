@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: ${{ github.workspace }}
+      REPLYMIND_MODE: demo
+      RUNTIME_DIR: ${{ runner.temp }}/replymind-runtime
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install ruff
+
+      - name: Lint
+        run: ruff check .
+
+      - name: Test
+        run: python -m pytest -q
+
+      - name: Smoke-test the demo pipeline
+        # Proves a fresh clone runs end to end with no credentials.
+        run: |
+          python -c "
+          from main import run_once
+          r = run_once()
+          assert r['fetched'] > 0, r
+          assert r['signals'] > 0, r
+          print('demo pipeline OK:', r)
+          "
